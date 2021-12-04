@@ -25,43 +25,43 @@ const privKeys = [
   "0x1f1f38c5dff5db1cff72b51876837c72db45efc19306b99dbb24acdfd8cfa9d1",
   // https://explorer.nervos.org/aggron/address/ckt1qyqqtf42x8s2guupnxmmyxkrcryu4c88k89qtm4nja
   "0xb2fd7b6756e049f8168c10b2fa63b60aecb79832551e18599393a01f2c9cbe30",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqytk38kxxpkgvsl36sntr57fsskzjwud7q0llq52
-  "0x37c482d5b0fe0bf69b3c233f6d1e29ed4c0ac43f9857594a2debc54e21feb86c",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqytk38kxxpkgvsl36sntr57fsskzjwud7q0llq52
+  // "0x37c482d5b0fe0bf69b3c233f6d1e29ed4c0ac43f9857594a2debc54e21feb86c",
   // https://explorer.nervos.org/aggron/address/ckt1qyqz60wnlnwm6vn04q93kuvy2zdzaymmf4vsw2mcfl
-  "0x44de1f43d6fa70f34161a90a7761f9e8cf779910385e469d42cf76b50384abaa",
+  // "0x44de1f43d6fa70f34161a90a7761f9e8cf779910385e469d42cf76b50384abaa",
   // https://explorer.nervos.org/aggron/address/ckt1qyqzqe0m4cju7m5txc7v9k435n9zucx3qdpqm6mgd7
-  "0xb15081cf255a65f1b0b1722b931da86a5f0b25431aa8c0f0cebbe747cb361004",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqr5jd078v0euv3fjjptj7wjmlsh8lpkr8sqmxnea
-  "0x1390c30e5d5867ee7246619173b5922d3b04009cab9e9d91e14506231281a997",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqvpyztgdlggsnd9l0d5juvky2des89ecfq7kxn86
-  "0x2dc6374a2238e414e51874f514b0fa871f8ce0eb1e7ecaa0aed229312ffc91b0",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqwyk39th3jnqhf4wrnlxxse4yf944kqwls6ps0da
-  "0x15f0805f5ebabda961cca1e97cdae03919b07d3eee4a9074c075ee2e80f2da9f",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqpjc645x2j8565e2ptjdyc55v29e6vlt0sl55grq
-  "0xa786cd647b24acbdc8ca46757dff3a930744179b6e20d9d8813c9430f954bd73",
-  // https://explorer.nervos.org/aggron/address/ckt1qyq8ysrledg6dd7z2ymvsh6869l5xcwdunyssx3kg9
-  "0x21c3849c1d6d150f50806e773458df00c4501118e38f777b4110d50f38d91bfd",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqzw6ltsr69pnalq0fvdmsqrgrj6txp4pcstz7nk5
-  "0x1bd5d82ce33bfeb5824a919127f3f95c50314c1ca72c1fb7c370f3c79ecbe8e6",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqp7ece5ujgjf9a6e0h3xafhht6zt6tpqeqyz0y7f
-  "0xacc5997a76ee194e4406b5e4e020efd6ca53dc3276c3d43753d55e936335c25d",
-  // https://explorer.nervos.org/aggron/address/ckt1qyq86rkjhn5saavpy53slpfy9m7qzv35mclq8qn2jg
-  "0xe2b0be6ffdba34a9d1e906f3a83ad24440ea22673b709306b1bc3b51030f79f3",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqg49m3qh6mks7an4vpfxmcz3m8cp7kdasqvf7swv
-  "0x65d50620ad7f08ef4da10e9992062626daddc3b68907012ece845e9bbc8c14ff",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqdk496m2fgaxura9fdhf9va3t7nacyjcusqjrzn2
-  "0xd1017ca5b9f0242818a33acd18911caadab84c8c92331eb2ecd2b44895e1d099",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqv9afd6sgg6zrtl2vuvpeym2t3ehgt9gzsqh9rp9
-  "0x991494a67bcfa4c30807f5a1426eaad2b79845672913c259da16926711328ae9",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqqhgjx0qa3nqs96zhehk979r3wywjsp4hs2cwd5h
-  "0x7f52aecd6e71e2ca3c6dd4b2b82212767598006aee0718f140a8bd0647d2832c",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqvl4n3dujpews0w9e7gj08zckjxk8xessqmkhp9m
-  "0x3826f69f59026faca8aa97f40cd512597b8801ebc40a88db19216d1742fdf4e7",
-  // https://explorer.nervos.org/aggron/address/ckt1qyq8m8vwfe4md75hz6yl3a498fcl7x70pxgqdf2ms7
-  "0x6edf8a51e2abb4543cacaa57aee366c95d25c8cffe4b41b0a7431d902c81080b",
-  // https://explorer.nervos.org/aggron/address/ckt1qyqyc3acg5xf4cqjmekntftzm3k8vy7n3uls437h4c
-  "0xdc181bbbc3d89ffad393e556949b56e2b44d2d4050d931262b559ef08e5eaf41",
-  // // https://explorer.nervos.org/aggron/address/ckt1qyq04l22jus670ynvcght6cn5ujqe9nygmcslrv3cu
+  // "0xb15081cf255a65f1b0b1722b931da86a5f0b25431aa8c0f0cebbe747cb361004",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqr5jd078v0euv3fjjptj7wjmlsh8lpkr8sqmxnea
+  // "0x1390c30e5d5867ee7246619173b5922d3b04009cab9e9d91e14506231281a997",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqvpyztgdlggsnd9l0d5juvky2des89ecfq7kxn86
+  // "0x2dc6374a2238e414e51874f514b0fa871f8ce0eb1e7ecaa0aed229312ffc91b0",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqwyk39th3jnqhf4wrnlxxse4yf944kqwls6ps0da
+  // "0x15f0805f5ebabda961cca1e97cdae03919b07d3eee4a9074c075ee2e80f2da9f",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqpjc645x2j8565e2ptjdyc55v29e6vlt0sl55grq
+  // "0xa786cd647b24acbdc8ca46757dff3a930744179b6e20d9d8813c9430f954bd73",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyq8ysrledg6dd7z2ymvsh6869l5xcwdunyssx3kg9
+  // "0x21c3849c1d6d150f50806e773458df00c4501118e38f777b4110d50f38d91bfd",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqzw6ltsr69pnalq0fvdmsqrgrj6txp4pcstz7nk5
+  // "0x1bd5d82ce33bfeb5824a919127f3f95c50314c1ca72c1fb7c370f3c79ecbe8e6",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqp7ece5ujgjf9a6e0h3xafhht6zt6tpqeqyz0y7f
+  // "0xacc5997a76ee194e4406b5e4e020efd6ca53dc3276c3d43753d55e936335c25d",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyq86rkjhn5saavpy53slpfy9m7qzv35mclq8qn2jg
+  // "0xe2b0be6ffdba34a9d1e906f3a83ad24440ea22673b709306b1bc3b51030f79f3",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqg49m3qh6mks7an4vpfxmcz3m8cp7kdasqvf7swv
+  // "0x65d50620ad7f08ef4da10e9992062626daddc3b68907012ece845e9bbc8c14ff",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqdk496m2fgaxura9fdhf9va3t7nacyjcusqjrzn2
+  // "0xd1017ca5b9f0242818a33acd18911caadab84c8c92331eb2ecd2b44895e1d099",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqv9afd6sgg6zrtl2vuvpeym2t3ehgt9gzsqh9rp9
+  // "0x991494a67bcfa4c30807f5a1426eaad2b79845672913c259da16926711328ae9",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqqhgjx0qa3nqs96zhehk979r3wywjsp4hs2cwd5h
+  // "0x7f52aecd6e71e2ca3c6dd4b2b82212767598006aee0718f140a8bd0647d2832c",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqvl4n3dujpews0w9e7gj08zckjxk8xessqmkhp9m
+  // "0x3826f69f59026faca8aa97f40cd512597b8801ebc40a88db19216d1742fdf4e7",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyq8m8vwfe4md75hz6yl3a498fcl7x70pxgqdf2ms7
+  // "0x6edf8a51e2abb4543cacaa57aee366c95d25c8cffe4b41b0a7431d902c81080b",
+  // // https://explorer.nervos.org/aggron/address/ckt1qyqyc3acg5xf4cqjmekntftzm3k8vy7n3uls437h4c
+  // "0xdc181bbbc3d89ffad393e556949b56e2b44d2d4050d931262b559ef08e5eaf41",
+  // https://explorer.nervos.org/aggron/address/ckt1qyq04l22jus670ynvcght6cn5ujqe9nygmcslrv3cu
   // "0xb9a9aafa95299e1d149aca1f002e20a697846889c6540cd37a99193cdc3e742a",
   // // https://explorer.nervos.org/aggron/address/ckt1qyqdr28xv8mwhfg2zmqa5qvefr3ld6zyaa2sgphu8p
   // "0x2adc9f91e9686c0838c990e0ad9893ba32fdffa33341eb295cef3b1b0027d8c8",
@@ -234,7 +234,7 @@ const privKeys = [
       } catch (error) {
         console.error(error);
       }
-    }, 5000);
+    }, 2000);
   });
 
   async function deployToken(name: string, symbol: string, transactionSubmitter: TransactionSubmitter) {
