@@ -4,6 +4,18 @@ on:
   push:
 
 jobs:
+  job-ip1:
+    runs-on: ubuntu-latest
+    steps:
+    - name: check ip
+      run: curl https://cip.cc
+
+  job-ip2:
+    runs-on: ubuntu-latest
+    steps:
+    - name: check ip
+      run: curl https://cip.cc
+
   batch-transactions:
     runs-on: ubuntu-latest
     if: ${{ true }}
