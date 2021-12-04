@@ -58,7 +58,7 @@ interface IMintableTokenStaticMethods extends TCallStatic {
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 }
 
-interface IMintableToken extends Contract, IMintableTokenStaticMethods {
+export interface IMintableToken extends Contract, IMintableTokenStaticMethods {
   callStatic: IMintableTokenStaticMethods;
   setMinter(
     minter: string,
@@ -76,7 +76,7 @@ interface IMintableToken extends Contract, IMintableTokenStaticMethods {
   ): Promise<TransactionResponse>;
 }
 
-interface IFaucet extends Contract {
+export interface IFaucet extends Contract {
   mint(
     tokens: string[],
     amount: BigNumberish,
@@ -153,7 +153,7 @@ interface IPancakePair extends Contract, IPancakePairStaticMethods {
 
 const deployerAddress = deployer.address;
 
-const txOverrides = {
+export const txOverrides = {
   gasPrice: isGodwoken ? 1000 : undefined,
   gasLimit: isGodwoken ? 1_000_000 : undefined,
 };
@@ -533,7 +533,7 @@ async function main() {
 
 main()
   .then(() => {
-    process.exit(0);
+    console.log("Deployment finished.");
   })
   .catch((err) => {
     console.log("err", err);

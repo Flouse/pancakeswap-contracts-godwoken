@@ -51,6 +51,7 @@ const config: HardhatUserConfig = {
       chainId: 3,
       url: "http://localhost:8024",
       accounts,
+      gasPrice: 0
     },
   },
 };
