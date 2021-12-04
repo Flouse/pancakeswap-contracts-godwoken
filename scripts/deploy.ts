@@ -32,6 +32,7 @@ import PancakeRouter from "../artifacts/contracts/PancakeRouter.sol/PancakeRoute
 import PancakePair from "../artifacts/contracts/PancakePair.sol/PancakePair.json";
 
 import { tokens } from "./config";
+import { PolyjuiceWallet } from "@polyjuice-provider/ethers";
 
 type TCallStatic = Contract["callStatic"];
 type TransactionResponse = providers.TransactionResponse;
@@ -151,7 +152,6 @@ interface IPancakePair extends Contract, IPancakePairStaticMethods {
   mint(to: string, overrides?: Overrides): Promise<TransactionResponse>;
 }
 
-const deployerAddress = deployer.address;
 
 export const txOverrides = {
   gasPrice: isGodwoken ? 1000 : undefined,
@@ -161,13 +161,16 @@ export const txOverrides = {
 const ethSymbol = isGodwoken
   ? "CKB"
   : networkSuffix?.startsWith("bsc")
-  ? "BNB"
-  : "ETH";
+    ? "BNB"
+    : "ETH";
 const ethDecimals = isGodwoken ? 8 : 18;
 
-async function main() {
-  console.log("Deployer address", deployerAddress);
+export async function deployContracts(
+  deployer: PolyjuiceWallet,
+  transactionSubmitter: TransactionSubmitter) {
 
+  const deployerAddress = deployer.address;
+  console.log("Deployer address", deployerAddress);
   await initGWAccountIfNeeded(deployerAddress);
 
   let deployerRecipientAddress = deployerAddress;
@@ -176,11 +179,6 @@ async function main() {
       ethEoaAddressToGodwokenShortAddress(deployerAddress);
     console.log("Deployer godwoken address:", deployerRecipientAddress);
   }
-
-  const transactionSubmitter = await TransactionSubmitter.newWithHistory(
-    `deploy${networkSuffix ? `-${networkSuffix}` : ""}.json`,
-    Boolean(process.env.IGNORE_HISTORY),
-  );
 
   const deployPancakeFactoryReceipt = await transactionSubmitter.submitAndWait(
     `Deploy PancakeFactory`,
@@ -324,15 +322,15 @@ async function main() {
   const [tokenAAddress, tokenBAddress, pairSymbol] =
     tokenAddresses[0].toLowerCase() < tokenAddresses[1].toLowerCase()
       ? [
-          tokenAddresses[0],
-          tokenAddresses[1],
-          `${tokenSymbols[0]}-${tokenSymbols[1]}`,
-        ]
+        tokenAddresses[0],
+        tokenAddresses[1],
+        `${tokenSymbols[0]}-${tokenSymbols[1]}`,
+      ]
       : [
-          tokenAddresses[1],
-          tokenAddresses[0],
-          `${tokenSymbols[1]}-${tokenSymbols[0]}`,
-        ];
+        tokenAddresses[1],
+        tokenAddresses[0],
+        `${tokenSymbols[1]}-${tokenSymbols[0]}`,
+      ];
 
   try {
     await Promise.race([
@@ -531,11 +529,11 @@ async function main() {
   }
 }
 
-main()
-  .then(() => {
-    console.log("Deployment finished.");
-  })
-  .catch((err) => {
-    console.log("err", err);
-    process.exit(1);
-  });
+// deployContracts()
+//   .then(() => {
+//     console.log("Deployment finished.");
+//   })
+//   .catch((err) => {
+//     console.log("err", err);
+//     process.exit(1);
+//   });
