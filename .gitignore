@@ -8,5 +8,6 @@ cache/
 .openzeppelin
 
 deploy*.json
+!deploy-gw-alphanet-*.json
 
 .env.dev
