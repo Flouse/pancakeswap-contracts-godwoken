@@ -28,11 +28,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
 
-    - name: Testcase - Pancakeswap
-      working-directory: testcases/pancakeswap-contracts-godwoken
-      run: |
-        curl cip.cc
+    - name: check IP
+      run: curl https://cip.cc
 
+    - name: Testcase - Pancakeswap
+      run: |
         yarn && yarn compile
         ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
       timeout-minutes: 6
