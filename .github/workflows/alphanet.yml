@@ -4,30 +4,16 @@ on:
   push:
 
 jobs:
-  job-ip1:
-    runs-on: ubuntu-latest
-    steps:
-    - name: check ip
-      run: curl https://cip.cc
-
-  job-ip2:
-    runs-on: ubuntu-latest
-    steps:
-    - name: check ip
-      run: curl https://cip.cc
-
-  batch-transactions:
+  job1:
     runs-on: ubuntu-latest
     if: ${{ true }}
     steps:
     - uses: actions/checkout@v2
       with:
         submodules: 'recursive'
-    
     - uses: actions/setup-node@v2
       with:
         node-version: '14'
-
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -39,12 +25,65 @@ jobs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
-
     - name: check IP
       run: curl https://cip.cc
-
     - name: Testcase - Pancakeswap
       run: |
         yarn && yarn compile
         ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
-      timeout-minutes: 6
+
+  job2:
+    runs-on: ubuntu-latest
+    if: ${{ true }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+    - name: Node Cache
+      uses: actions/cache@v2
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - name: check IP
+      run: curl https://cip.cc
+    - name: Testcase - Pancakeswap
+      run: |
+        yarn && yarn compile
+        ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
+
+  batch-transactions:
+    runs-on: ubuntu-latest
+    if: ${{ true }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Get yarn cache directory path
+      id: yarn-cache-dir-path
+      run: echo "::set-output name=dir::$(yarn cache dir)"
+    - name: Node Cache
+      uses: actions/cache@v2
+      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - name: check IP
+      run: curl https://cip.cc
+    - name: Testcase - Pancakeswap
+      run: |
+        yarn && yarn compile
+        ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
