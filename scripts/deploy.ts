@@ -46,7 +46,7 @@ interface IPancakeFactoryStaticMethods extends TCallStatic {
   INIT_CODE_PAIR_HASH(overrides?: CallOverrides): Promise<string>;
 }
 
-interface IPancakeFactory extends Contract, IPancakeFactoryStaticMethods {
+export interface IPancakeFactory extends Contract, IPancakeFactoryStaticMethods {
   callStatic: IPancakeFactoryStaticMethods;
   createPair(
     tokenA: string,
@@ -147,7 +147,7 @@ interface IPancakePairStaticMethods extends TCallStatic {
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 }
 
-interface IPancakePair extends Contract, IPancakePairStaticMethods {
+export interface IPancakePair extends Contract, IPancakePairStaticMethods {
   callStatic: IPancakePairStaticMethods;
   mint(to: string, overrides?: Overrides): Promise<TransactionResponse>;
 }

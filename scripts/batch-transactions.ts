@@ -1,4 +1,5 @@
 import {
+  BigNumber,
   constants,
   Contract,
   ContractFactory
@@ -16,12 +17,13 @@ import {
   unit,
 } from "./common";
 import Faucet from "../artifacts/contracts/Faucet.sol/Faucet.json";
-import { deployContracts, IFaucet, IMintableToken, IPancakeRouter, txOverrides } from "./deploy";
+import { deployContracts, IFaucet, IMintableToken, IPancakeFactory, IPancakePair, IPancakeRouter, txOverrides } from "./deploy";
 import MintableToken from "../artifacts/contracts/MintableToken.sol/MintableToken.json";
 import { PolyjuiceWallet } from "@polyjuice-provider/ethers";
 import PancakeRouter from "../artifacts/contracts/PancakeRouter.sol/PancakeRouter.json";
 import PancakeFactory from "../artifacts/contracts/PancakeFactory.sol/PancakeFactory.json";
 import WETH from "../artifacts/contracts/WETH9.sol/WETH9.json";
+import PancakePair from "../artifacts/contracts/PancakePair.sol/PancakePair.json";
 
 const privKeys = [
   // https://explorer.nervos.org/aggron/address/ckt1qyq20fymanctz533ep5hxvhvfmd4mu7yxveq0vpu3d
@@ -227,6 +229,11 @@ const privKeys = [
       },
     );
     const pancakeFactoryAddress = deployPancakeFactoryReceipt.contractAddress;
+    const pancakeFactory = new Contract(
+      pancakeFactoryAddress,
+      PancakeFactory.abi,
+      deployer,
+    ) as IPancakeFactory;
     const deployWETHReceipt = await transactionSubmitter.submitAndWait(
       "Deploy WETH",
       () => {
@@ -331,6 +338,33 @@ const privKeys = [
           if (receipt == null) {
             throw new Error("    Transaction has no receipt");
           }
+          const pairAddress = await pancakeFactory.callStatic.getPair(
+            tokenAAddress,
+            tokenBAddress,
+          );
+          console.log(`${pairSymbol} pair address:`, pairAddress);
+          const pair = new Contract(
+            pairAddress,
+            PancakePair.abi,
+            deployer,
+          ) as IPancakePair;
+          console.log(
+            `${pairSymbol} reserves:`,
+            (
+              (await pair.callStatic.getReserves()).slice(0, 2) as [
+                BigNumber,
+                BigNumber,
+              ]
+            )
+              .map((bn) => bn.div(constants.WeiPerEther.div(1e9)).toNumber() / 1e9)
+              .join(", "),
+          );
+          console.log(
+            `${pairSymbol} balance:`,
+            (await pair.callStatic.balanceOf(deployer.address))
+              .div(constants.WeiPerEther.div(1e9))
+              .toNumber() / 1e9,
+          );
 
           console.timeEnd(`  ${idx}-addLiquidity ${num}`);
         }).catch(console.error);
