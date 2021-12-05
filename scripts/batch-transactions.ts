@@ -16,9 +16,12 @@ import {
   unit,
 } from "./common";
 import Faucet from "../artifacts/contracts/Faucet.sol/Faucet.json";
-import { deployContracts, IFaucet, IMintableToken, txOverrides } from "./deploy";
+import { deployContracts, IFaucet, IMintableToken, IPancakeRouter, txOverrides } from "./deploy";
 import MintableToken from "../artifacts/contracts/MintableToken.sol/MintableToken.json";
 import { PolyjuiceWallet } from "@polyjuice-provider/ethers";
+import PancakeRouter from "../artifacts/contracts/PancakeRouter.sol/PancakeRouter.json";
+import PancakeFactory from "../artifacts/contracts/PancakeFactory.sol/PancakeFactory.json";
+import WETH from "../artifacts/contracts/WETH9.sol/WETH9.json";
 
 const privKeys = [
   // https://explorer.nervos.org/aggron/address/ckt1qyq20fymanctz533ep5hxvhvfmd4mu7yxveq0vpu3d
@@ -206,15 +209,87 @@ const privKeys = [
       ) as IMintableToken;
     });
 
-    // keep minting for stress testing
+    const deployPancakeFactoryReceipt = await transactionSubmitter.submitAndWait(
+      `Deploy PancakeFactory`,
+      () => {
+        const implementationFactory = new ContractFactory(
+          PancakeFactory.abi,
+          PancakeFactory.bytecode,
+          deployer,
+        );
+        const tx = implementationFactory.getDeployTransaction(
+          deployer.address,
+        );
+        tx.gasPrice = txOverrides.gasPrice;
+        tx.gasLimit = txOverrides.gasLimit;
+        return deployer.sendTransaction(tx);
+      },
+    );
+    const pancakeFactoryAddress = deployPancakeFactoryReceipt.contractAddress;
+    const deployWETHReceipt = await transactionSubmitter.submitAndWait(
+      "Deploy WETH",
+      () => {
+        const implementationFactory = new ContractFactory(
+          WETH.abi,
+          WETH.bytecode,
+          deployer,
+        );
+        const tx = implementationFactory.getDeployTransaction();
+        tx.gasPrice = txOverrides.gasPrice;
+        tx.gasLimit = txOverrides.gasLimit;
+        return deployer.sendTransaction(tx);
+      },
+    );
+    const wethAddress = deployWETHReceipt.contractAddress;
+    console.log(`    WETH address:`, wethAddress);
+    const deployPancakeRouterReceipt = await transactionSubmitter.submitAndWait(
+      `Deploy PancakeRouter`,
+      () => {
+        const implementationFactory = new ContractFactory(
+          PancakeRouter.abi,
+          PancakeRouter.bytecode,
+          deployer,
+        );
+        const tx = implementationFactory.getDeployTransaction(
+          pancakeFactoryAddress,
+          wethAddress,
+        );
+        tx.gasPrice = txOverrides.gasPrice;
+        tx.gasLimit = txOverrides.gasLimit;
+        return deployer.sendTransaction(tx);
+      },
+    );
+    const pancakeRouterAddress = deployPancakeRouterReceipt.contractAddress;
+    console.log(`    PancakeRouter address:`, pancakeRouterAddress);
+    const pancakeRouter = new Contract(
+      pancakeRouterAddress,
+      PancakeRouter.abi,
+      deployer,
+    ) as IPancakeRouter;
+    const [tokenAAddress, tokenBAddress, pairSymbol] =
+      tokenAddresses[0].toLowerCase() < tokenAddresses[1].toLowerCase()
+        ? [
+          tokenAddresses[0],
+          tokenAddresses[1],
+          `${tokenSymbols[0]}-${tokenSymbols[1]}`,
+        ]
+        : [
+          tokenAddresses[1],
+          tokenAddresses[0],
+          `${tokenSymbols[1]}-${tokenSymbols[0]}`,
+        ];
+
+    // stress testing
     setInterval(() => {
       // TODO add mintingSet, 计算成功率
+
       const num = Math.floor(Math.random() * 10000);
-      console.time(`${idx}-${gw_short_script_hash}-${num}`);
+      
 
+      // minting
+      console.log(`${idx}: Minting ${num} ${tokenSymbols.join(", ")}`);
+      console.time(`  ${idx}-mint ${num}`);
       try {
-        console.log(`${idx}: Minting ${num} ${tokenSymbols.join(", ")}`);
-
         faucet.mint(
           tokenContracts.map((token) => token.address),
           unit(num),
@@ -230,13 +305,37 @@ const privKeys = [
             ))).map((bn) => bn.div(constants.WeiPerEther.div(1e9)).toNumber() / 1e9)
               .join(", "),
           )
-          console.timeEnd(`${idx}-${gw_short_script_hash}-${num}`);
+          console.timeEnd(`  ${idx}-mint ${num}`);
         }).catch(console.error);
-
-        // TODO: Add liquidity
-
       } catch (error) {
         console.error(error);
+      }
+
+      // TODO: Add liquidity
+      console.log(`${idx}: addLiquidity ${num} ${pairSymbol}`);
+      console.time(`  ${idx}-addLiquidity ${num}`);
+      try {
+        pancakeRouter.addLiquidity(
+          tokenAAddress,
+          tokenBAddress,
+          unit(num),
+          unit(num),
+          unit(num),
+          unit(num),
+          deployer.address,
+          Math.ceil(Date.now() / 1000) + 60 * 20,
+          txOverrides,
+        ).then(res => res.wait(1)
+        ).then(async receipt => {
+          // console.debug(receipt);
+          if (receipt == null) {
+            throw new Error("    Transaction has no receipt");
+          }
+
+          console.timeEnd(`  ${idx}-addLiquidity ${num}`);
+        }).catch(console.error);
+      } catch (err: any) {
+        console.log("    Failed:", err.message ?? err);
       }
     }, 3000);
   });

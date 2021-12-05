@@ -89,7 +89,7 @@ interface IPancakeRouterStaticMethods extends TCallStatic {
   WETH(): Promise<string>;
 }
 
-interface IPancakeRouter extends Contract, IPancakeRouterStaticMethods {
+export interface IPancakeRouter extends Contract, IPancakeRouterStaticMethods {
   callStatic: IPancakeRouterStaticMethods;
   addLiquidity(
     tokenA: string,
