@@ -158,9 +158,8 @@ const privKeys = [
 
 (async function stressTesting() {
   const randomIdx = Math.floor(Math.random() * privKeys.length);
-  const randomIdx1 = Math.floor(Math.random() * privKeys.length);
 
-  [privKeys[randomIdx], privKeys[randomIdx1]].forEach(async (privKey, idx) => {
+  [privKeys[randomIdx]].forEach(async (privKey, idx) => {
     const deployer = new PolyjuiceWallet(
       privKey,
       polyjuiceConfig,
@@ -282,7 +281,7 @@ const privKeys = [
         ];
 
     // stress testing
-    setInterval(() => {
+    setInterval(async () => {
       // TODO add mintingSet, 计算成功率
 
       const num = Math.floor(Math.random() * 10000);
@@ -291,7 +290,7 @@ const privKeys = [
       console.log(`${idx}: Minting ${num} ${tokenSymbols.join(", ")}`);
       console.time(`  ${idx}-mint ${num}`);
       try {
-        faucet.mint(
+        await faucet.mint(
           tokenContracts.map((token) => token.address),
           unit(num),
           txOverrides,
