@@ -172,6 +172,7 @@ const privKeys = [
       Boolean(process.env.IGNORE_HISTORY),
     );
 
+    // deploy pancakeswap contracts first
     await retry(
       () => deployContracts(deployer, transactionSubmitter),
       6, 60000).catch(console.error);
@@ -207,8 +208,9 @@ const privKeys = [
 
     // keep minting for stress testing
     setInterval(() => {
-      // TODO 计时, add mintingSet, 计算成功率
+      // TODO add mintingSet, 计算成功率
       const num = Math.floor(Math.random() * 10000);
+      console.time(`${idx}-${gw_short_script_hash}-${num}`);
 
       try {
         console.log(`${idx}: Minting ${num} ${tokenSymbols.join(", ")}`);
@@ -228,6 +230,7 @@ const privKeys = [
             ))).map((bn) => bn.div(constants.WeiPerEther.div(1e9)).toNumber() / 1e9)
               .join(", "),
           )
+          console.timeEnd(`${idx}-${gw_short_script_hash}-${num}`);
         }).catch(console.error);
 
         // TODO: Add liquidity
