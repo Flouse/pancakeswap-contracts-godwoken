@@ -174,14 +174,14 @@ const privKeys = [
 
     const tokenSymbols = Object.keys(tokens);
     const transactionSubmitter = await TransactionSubmitter.newWithHistory(
-      `deploy${networkSuffix ? `-${networkSuffix}-${gw_short_script_hash}` : ""}.json`,
+      `history/${networkSuffix}-${gw_short_script_hash}.json`,
       Boolean(process.env.IGNORE_HISTORY),
     );
 
     // deploy pancakeswap contracts first
     await retry(
       () => deployContracts(deployer, transactionSubmitter),
-      6, 60000).catch(console.error);
+      6, 30000).catch(console.error);
 
     const deployFaucetReceipt = await transactionSubmitter.submitAndWait(
       "Deploy Faucet",
