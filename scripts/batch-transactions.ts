@@ -371,7 +371,7 @@ const privKeys = [
         console.error('='.repeat(80));
         console.error(err.message ?? err);
       }
-    }, 2000);
+    }, 3000);
   });
 
   async function deployToken(name: string, symbol: string, transactionSubmitter: TransactionSubmitter) {
