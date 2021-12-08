@@ -342,7 +342,6 @@ const privKeys = [
             tokenAAddress,
             tokenBAddress,
           );
-          console.log(`${pairSymbol} pair address:`, pairAddress);
           const pair = new Contract(
             pairAddress,
             PancakePair.abi,
