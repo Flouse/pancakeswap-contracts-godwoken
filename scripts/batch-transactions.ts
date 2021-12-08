@@ -293,15 +293,15 @@ const privKeys = [
 
       const num = Math.floor(Math.random() * 10000);
 
-      // minting
-      console.log(`${idx}: Minting ${num} ${tokenSymbols.join(", ")}`);
-      console.time(`  ${idx}-mint ${num}`);
       try {
+        // minting
+        console.log(`${idx}: Minting ${num} ${tokenSymbols.join(", ")}`);
+        console.time(`  ${idx}-mint ${num}`);
         await faucet.mint(
           tokenContracts.map((token) => token.address),
           unit(num),
           txOverrides,
-        ).then(res => res.wait(1)
+        ).then(res => res.wait(0)
         ).then(async receipt => {
           if (receipt == null) {
             throw new Error("    Transaction has no receipt");
@@ -313,15 +313,14 @@ const privKeys = [
               .join(", "),
           )
           console.timeEnd(`  ${idx}-mint ${num}`);
-        }).catch(console.error);
-      } catch (error) {
-        console.error(error);
-      }
+        }).catch(reason => {
+          console.timeEnd(`  ${idx}-mint ${num}`);
+          console.error("    Failed to mint:", reason.message ?? reason);
+        });
 
-      // Add liquidity
-      console.log(`${idx}: addLiquidity ${num} ${pairSymbol}`);
-      console.time(`  ${idx}-addLiquidity ${num}`);
-      try {
+        // Add liquidity
+        console.log(`${idx}: addLiquidity ${num} ${pairSymbol}`);
+        console.time(`  ${idx}-addLiquidity ${num}`);
         pancakeRouter.addLiquidity(
           tokenAAddress,
           tokenBAddress,
@@ -332,9 +331,8 @@ const privKeys = [
           deployer.address,
           Math.ceil(Date.now() / 1000) + 60 * 20,
           txOverrides,
-        ).then(res => res.wait(1)
+        ).then(res => res.wait(0)
         ).then(async receipt => {
-          // console.debug(receipt);
           if (receipt == null) {
             throw new Error("    Transaction has no receipt");
           }
@@ -364,13 +362,16 @@ const privKeys = [
               .div(constants.WeiPerEther.div(1e9))
               .toNumber() / 1e9,
           );
-
           console.timeEnd(`  ${idx}-addLiquidity ${num}`);
-        }).catch(console.error);
+        }).catch(reason => {
+          console.timeEnd(`  ${idx}-addLiquidity ${num}`);
+          console.error("    Failed to addLiquidity:", reason.message ?? reason);
+        });
       } catch (err: any) {
-        console.log("    Failed:", err.message ?? err);
+        console.error('='.repeat(80));
+        console.error(err.message ?? err);
       }
-    }, 3000);
+    }, 2000);
   });
 
   async function deployToken(name: string, symbol: string, transactionSubmitter: TransactionSubmitter) {
