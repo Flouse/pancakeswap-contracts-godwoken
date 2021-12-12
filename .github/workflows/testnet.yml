@@ -1,4 +1,5 @@
-name: Alphanet testing
+
+name: Testnet testing
 
 on:
   push:
@@ -9,7 +10,7 @@ on:
   # Note: GitHub Actions does not support the non-standard syntax @yearly, @monthly, @weekly, @daily, @hourly, and @reboot.
   # You can use crontab guru (https://crontab.guru/) to help generate your cron syntax and confirm what time it will run.
   # To help you get started, there is also a list of crontab guru examples (https://crontab.guru/examples.html).
-  - cron:  '45 */8 * * *'
+  - cron:  '30 */8 * * *'
 
 jobs:
   job1:
@@ -39,7 +40,7 @@ jobs:
     - name: Testcase - Pancakeswap
       run: |
         yarn && yarn compile
-        ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
+        yarn testnet-test
 
   job2:
     runs-on: ubuntu-latest
@@ -68,7 +69,7 @@ jobs:
     - name: Testcase - Pancakeswap
       run: |
         yarn && yarn compile
-        ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
+        yarn testnet-test
 
   job3:
     runs-on: ubuntu-latest
@@ -97,7 +98,7 @@ jobs:
     - name: Testcase - Pancakeswap
       run: |
         yarn && yarn compile
-        ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
+        yarn testnet-test
 
   job4:
     runs-on: ubuntu-latest
@@ -126,7 +127,7 @@ jobs:
     - name: Testcase - Pancakeswap
       run: |
         yarn && yarn compile
-        ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
+        yarn testnet-test
 
   job5:
     runs-on: ubuntu-latest
@@ -155,7 +156,7 @@ jobs:
     - name: Testcase - Pancakeswap
       run: |
         yarn && yarn compile
-        ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
+        yarn testnet-test
 
   job6:
     runs-on: ubuntu-latest
@@ -184,4 +185,4 @@ jobs:
     - name: Testcase - Pancakeswap
       run: |
         yarn && yarn compile
-        ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts
+        yarn testnet-test

@@ -8,7 +8,9 @@
   "scripts": {
     "clean": "rimraf ./cache && rimraf ./artifacts",
     "compile": "yarn clean && hardhat compile",
-    "alphanet-test": "ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts"
+    "fetch-accounts": "TODO",
+    "alphanet-test": "ENV_PATH=./alphanet.env yarn ts-node ./scripts/batch-transactions.ts",
+    "testnet-test": "yarn ts-node ./scripts/batch-transactions.ts"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.1",
