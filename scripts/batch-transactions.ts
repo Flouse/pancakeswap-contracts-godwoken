@@ -165,31 +165,33 @@ import { privKeys } from "./accounts";
         // minting
         console.log(`${idx}: Minting ${num} ${tokenSymbols.join(", ")}`);
         console.time(`  ${idx}-mint ${num}`);
-        await faucet.mint(
+        let response = await faucet.mint(
           tokenContracts.map((token) => token.address),
           unit(num),
           txOverrides,
-        ).then(res => res.wait(0)
-        ).then(async receipt => {
-          if (receipt == null) {
-            throw new Error("    Transaction has no receipt");
-          }
-          // console.log(`    Balances(${tokenSymbols.join(", ")}):`,
-          //   (await Promise.all(tokenContracts.map((token) =>
-          //     token.callStatic.balanceOf(gw_short_script_hash),
-          //   ))).map((bn) => bn.div(constants.WeiPerEther.div(1e9)).toNumber() / 1e9)
-          //     .join(", "),
-          // )
-          console.timeEnd(`  ${idx}-mint ${num}`);
-        }).catch(reason => {
-          console.timeEnd(`  ${idx}-mint ${num}`);
-          console.error("    Failed to mint:", reason.message ?? reason);
-        });
+        );
+        // let timeoutID = setTimeout(() => {
+        //   console.timeEnd(`  ${idx}-mint ${num}`);
+        //   // console.error("    Failed to mint:", reason.message ?? reason);
+        //   throw new Error(`${idx}-mint ${num} timeout`);
+        // }, 6000);
+        // let receipt = await response.wait(1);
+        // clearTimeout(timeoutID);
+        // if (receipt == null) {
+        //   throw new Error("    Transaction has no receipt");
+        // }
+        // console.log(`    Balances(${tokenSymbols.join(", ")}):`,
+        //   (await Promise.all(tokenContracts.map((token) =>
+        //     token.callStatic.balanceOf(gw_short_script_hash),
+        //   ))).map((bn) => bn.div(constants.WeiPerEther.div(1e9)).toNumber() / 1e9)
+        //     .join(", "),
+        // )
+        console.timeEnd(`  ${idx}-mint ${num}`);
 
         // Add liquidity
         console.log(`${idx}: addLiquidity ${num} ${pairSymbol}`);
         console.time(`  ${idx}-addLiquidity ${num}`);
-        pancakeRouter.addLiquidity(
+        response = await pancakeRouter.addLiquidity(
           tokenAAddress,
           tokenBAddress,
           unit(num),
@@ -199,20 +201,26 @@ import { privKeys } from "./accounts";
           deployer.address,
           Math.ceil(Date.now() / 1000) + 60 * 20,
           txOverrides,
-        ).then(res => res.wait(0)
-        ).then(async receipt => {
-          if (receipt == null) {
-            throw new Error("    Transaction has no receipt");
-          }
-          const pairAddress = await pancakeFactory.callStatic.getPair(
-            tokenAAddress,
-            tokenBAddress,
-          );
-          const pair = new Contract(
-            pairAddress,
-            PancakePair.abi,
-            deployer,
-          ) as IPancakePair;
+        );
+        // timeoutID = setTimeout(() => {
+        //   console.timeEnd(`  ${idx}-addLiquidity ${num}`);
+        //   throw new Error(`${idx}-addLiquidity ${num} timeout`);
+        // }, 6000);
+        // receipt = await response.wait(1);
+        // clearTimeout(timeoutID);
+        // if (receipt == null) {
+        //   throw new Error("    Transaction has no receipt");
+        // }
+
+          // const pairAddress = await pancakeFactory.callStatic.getPair(
+          //   tokenAAddress,
+          //   tokenBAddress,
+          // );
+          // const pair = new Contract(
+          //   pairAddress,
+          //   PancakePair.abi,
+          //   deployer,
+          // ) as IPancakePair;
           // console.log(
           //   `${pairSymbol} reserves:`,
           //   (
@@ -230,16 +238,12 @@ import { privKeys } from "./accounts";
           //     .div(constants.WeiPerEther.div(1e9))
           //     .toNumber() / 1e9,
           // );
-          console.timeEnd(`  ${idx}-addLiquidity ${num}`);
-        }).catch(reason => {
-          console.timeEnd(`  ${idx}-addLiquidity ${num}`);
-          console.error("    Failed to addLiquidity:", reason.message ?? reason);
-        });
+        console.timeEnd(`  ${idx}-addLiquidity ${num}`);
       } catch (err: any) {
         console.error('='.repeat(80));
         console.error(err.message ?? err);
       }
-    }, 3000);
+    }, 6000);
   });
 
   async function deployToken(name: string, symbol: string, transactionSubmitter: TransactionSubmitter) {
