@@ -261,7 +261,7 @@ export async function deployContracts(
         ),
       )
     )
-      .map((bn) => bn.div(constants.WeiPerEther.div(1e9)).toNumber() / 1e9)
+      .map((bn) => bn.div(constants.WeiPerEther.div(1e9)).div(1e9))
       .join(", "),
   );
 
@@ -431,15 +431,14 @@ export async function deployContracts(
         BigNumber,
       ]
     )
-      .map((bn) => bn.div(constants.WeiPerEther.div(1e9)).toNumber() / 1e9)
+      .map((bn) => bn.div(constants.WeiPerEther.div(1e9)).div(1e9))
       .join(", "),
   );
 
   console.log(
     `${pairSymbol} balance:`,
     (await pair.callStatic.balanceOf(deployerRecipientAddress))
-      .div(constants.WeiPerEther.div(1e9))
-      .toNumber() / 1e9,
+      .div(constants.WeiPerEther.div(1e9)).div(1e9),
   );
 
   const [tokenCAddress, tokenDAddress, ethPairSymbol] =
@@ -493,8 +492,7 @@ export async function deployContracts(
               i === ethIndex
                 ? BigNumber.from(10).pow(ethDecimals).div(1e4)
                 : constants.WeiPerEther.div(1e9),
-            )
-            .toNumber() / (i === ethIndex ? 1e4 : 1e9),
+            ).div(i === ethIndex ? 1e4 : 1e9),
       )
       .join(", "),
   );
@@ -502,8 +500,7 @@ export async function deployContracts(
   console.log(
     `${ethPairSymbol} balance:`,
     (await ethPair.callStatic.balanceOf(deployerRecipientAddress))
-      .div(constants.WeiPerEther.div(1e9))
-      .toNumber() / 1e9,
+      .div(constants.WeiPerEther.div(1e9)).div(1e9),
   );
 
   // TODO: swap
