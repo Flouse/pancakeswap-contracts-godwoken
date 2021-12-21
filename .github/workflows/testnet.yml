@@ -157,32 +157,3 @@ jobs:
       run: |
         yarn && yarn compile
         yarn testnet-test
-
-  job6:
-    runs-on: ubuntu-latest
-    timeout-minutes: 360
-    if: ${{ true }}
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: 'recursive'
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-    - name: Node Cache
-      uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
-    - name: check IP
-      run: curl https://cip.cc
-    - name: Testcase - Pancakeswap
-      run: |
-        yarn && yarn compile
-        yarn testnet-test

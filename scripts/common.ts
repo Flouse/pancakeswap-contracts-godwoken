@@ -165,6 +165,56 @@ export async function retry<T>(fn: () => Promise<T>, retriesLeft = 3, interval =
   }
 }
 
+export const promiseAllLimitN = async <T>(n: number, list: (() => Promise<T>)[]) => {
+  const head = list.slice(0, n)
+  const tail = list.slice(n)
+  const result: T[] = []
+  const execute = async (promise: () => Promise<T>, i: number, runNext: () => Promise<void>) => {
+    result[i] = await promise()
+    await runNext()
+  }
+  const runNext = async () => {
+    const i = list.length - tail.length
+    const promise = tail.shift()
+    if (promise !== undefined) {
+      await execute(promise, i, runNext)
+    }
+  }
+  await Promise.all(head.map((promise, i) => execute(promise, i, runNext)))
+  return result
+}
+
+// export const resolveOrTimeout = <T = unknown>(
+//   // Promise or a function that will be passed to a Promise object
+//   promiseOrHandler:
+//     | Promise<T>
+//     | ((
+//       resolve: (data: T) => void,
+//       reject?: (data: unknown) => void
+//     ) => unknown),
+//   // timeout in milliseconds. if 0, race condition will not apply and original promise will be returned as is
+//   timeout: number,
+//   // optional, timeout error message
+//   timeoutError = `Async operation didn't complete in ${timeout}ms.`,
+//   // optional callback that will be executed when timeout completes first
+//   onTimeout?: (msg: string) => void
+// ): Promise<T> => {
+//   const promise =
+//     typeof promiseOrHandler === 'function' ? new Promise<T>(promiseOrHandler) : promiseOrHandler;
+
+//   return timeout
+//     ? Promise.race<Promise<T>>([
+//       promise,
+//       new Promise((_, rej) =>
+//         setTimeout(() => {
+//           rej(timeoutError);
+//           onTimeout && onTimeout(timeoutError);
+//         }, timeout)
+//       ),
+//     ])
+//     : promise;
+// };
+
 export const isGodwoken = networkSuffix?.startsWith("gw");
 export const rpc = isGodwoken ? polyjuiceRPC : defaultRPC;
 export const deployer = isGodwoken ? polyjuiceDeployer : defaultDeployer;

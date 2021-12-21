@@ -12,6 +12,7 @@ import {
   networkSuffix,
   polyjuiceConfig,
   polyjuiceRPC,
+  promiseAllLimitN,
   retry,
   sleep,
   unit,
@@ -26,10 +27,11 @@ import WETH from "../artifacts/contracts/WETH9.sol/WETH9.json";
 import PancakePair from "../artifacts/contracts/PancakePair.sol/PancakePair.json";
 import { privKeys } from "./accounts";
 
-(async function stressTesting() {
-  const randomIdx = Math.floor(Math.random() * privKeys.length);
+let mintJobs: (() => Promise<void>)[] = [];
+let pancakeRouters: (() => Promise<void>)[] = [];
 
-  privKeys.slice(randomIdx, randomIdx + 5).forEach(async (privKey, idx) => {
+(async function stressTesting() {
+  const deployJobs = privKeys.map(privKey => async () => {
     const deployer = new PolyjuiceWallet(
       privKey,
       polyjuiceConfig,
@@ -47,9 +49,11 @@ import { privKeys } from "./accounts";
     );
 
     // deploy pancakeswap contracts first
-    await retry(
-      () => deployContracts(deployer, transactionSubmitter),
-      6, 30000).catch(console.error);
+    await retry(() => Promise.race([
+      deployContracts(deployer, transactionSubmitter),
+      new Promise((_, rej) =>
+        setTimeout(() => rej(`${gw_short_script_hash} timeout`), 60000)),
+    ]), 3, 30000).catch(console.error);
 
     const deployFaucetReceipt = await transactionSubmitter.submitAndWait(
       "Deploy Faucet",
@@ -155,96 +159,30 @@ import { privKeys } from "./accounts";
           `${tokenSymbols[1]}-${tokenSymbols[0]}`,
         ];
 
-    // stress testing
-    setInterval(async () => {
-      // TODO add mintingSet, 计算成功率
-
-      const num = Math.floor(Math.random() * 10000);
-
-      try {
-        // minting
-        console.log(`${idx}: Minting ${num} ${tokenSymbols.join(", ")}`);
-        console.time(`  ${idx}-mint ${num}`);
-        let response = await faucet.mint(
+    const mintJob = async () => {
+      const num = Math.floor(Math.random() * 1000);
+      console.log(`${deployer.address} is minting ${num} ${tokenSymbols.join(", ")}`);
+      console.time(`mint ${num}`);
+      await Promise.race([
+        sleep(6000).then(() => { throw new Error(`mint ${num} timeout`); }),
+        faucet.mint(
           tokenContracts.map((token) => token.address),
           unit(num),
           txOverrides,
-        );
-        // let timeoutID = setTimeout(() => {
-        //   console.timeEnd(`  ${idx}-mint ${num}`);
-        //   // console.error("    Failed to mint:", reason.message ?? reason);
-        //   throw new Error(`${idx}-mint ${num} timeout`);
-        // }, 6000);
-        // let receipt = await response.wait(1);
-        // clearTimeout(timeoutID);
-        // if (receipt == null) {
-        //   throw new Error("    Transaction has no receipt");
-        // }
-        // console.log(`    Balances(${tokenSymbols.join(", ")}):`,
-        //   (await Promise.all(tokenContracts.map((token) =>
-        //     token.callStatic.balanceOf(gw_short_script_hash),
-        //   ))).map((bn) => bn.div(constants.WeiPerEther.div(1e9)).toNumber() / 1e9)
-        //     .join(", "),
-        // )
-        console.timeEnd(`  ${idx}-mint ${num}`);
-
-        // Add liquidity
-        console.log(`${idx}: addLiquidity ${num} ${pairSymbol}`);
-        console.time(`  ${idx}-addLiquidity ${num}`);
-        response = await pancakeRouter.addLiquidity(
-          tokenAAddress,
-          tokenBAddress,
-          unit(num),
-          unit(num),
-          unit(num),
-          unit(num),
-          deployer.address,
-          Math.ceil(Date.now() / 1000) + 60 * 20,
-          txOverrides,
-        );
-        // timeoutID = setTimeout(() => {
-        //   console.timeEnd(`  ${idx}-addLiquidity ${num}`);
-        //   throw new Error(`${idx}-addLiquidity ${num} timeout`);
-        // }, 6000);
-        // receipt = await response.wait(1);
-        // clearTimeout(timeoutID);
-        // if (receipt == null) {
-        //   throw new Error("    Transaction has no receipt");
-        // }
-
-          // const pairAddress = await pancakeFactory.callStatic.getPair(
-          //   tokenAAddress,
-          //   tokenBAddress,
-          // );
-          // const pair = new Contract(
-          //   pairAddress,
-          //   PancakePair.abi,
-          //   deployer,
-          // ) as IPancakePair;
-          // console.log(
-          //   `${pairSymbol} reserves:`,
-          //   (
-          //     (await pair.callStatic.getReserves()).slice(0, 2) as [
-          //       BigNumber,
-          //       BigNumber,
-          //     ]
-          //   )
-          //     .map((bn) => bn.div(constants.WeiPerEther.div(1e9)).toNumber() / 1e9)
-          //     .join(", "),
-          // );
-          // console.log(
-          //   `${pairSymbol} balance:`,
-          //   (await pair.callStatic.balanceOf(deployer.address))
-          //     .div(constants.WeiPerEther.div(1e9))
-          //     .toNumber() / 1e9,
-          // );
-        console.timeEnd(`  ${idx}-addLiquidity ${num}`);
-      } catch (err: any) {
-        console.error('='.repeat(80));
-        console.error(err.message ?? err);
-      }
-    }, 6000);
+        ),
+      ]).catch(console.error)
+        .finally(() => console.timeEnd(`mint ${num}`));
+    }
+    mintJobs.push(mintJob);
   });
+
+  promiseAllLimitN(1, deployJobs);
+
+  setInterval(async () => {
+    if (mintJobs.length === 0) return;
+    const randomIdx = Math.floor(Math.random() * mintJobs.length);
+    mintJobs[randomIdx]().catch(console.error);
+  }, 500);
 
   async function deployToken(name: string, symbol: string, transactionSubmitter: TransactionSubmitter) {
     const receipt = await transactionSubmitter.submitAndWait(
@@ -266,3 +204,4 @@ import { privKeys } from "./accounts";
     return address;
   }
 })();
+
