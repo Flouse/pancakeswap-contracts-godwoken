@@ -215,6 +215,20 @@ export const promiseAllLimitN = async <T>(n: number, list: (() => Promise<T>)[])
 //     : promise;
 // };
 
+/**
+ * Randomize the order of the values of an array, returning a new array.
+ * Use the Fisher-Yates algorithm to reorder the elements of the array.
+ * > https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#Fisher_and_Yates'_original_method
+ */
+export const shuffle = ([...arr]) => {
+  let m = arr.length;
+  while (m) {
+    const i = Math.floor(Math.random() * m--);
+    [arr[m], arr[i]] = [arr[i], arr[m]];
+  }
+  return arr;
+}
+
 export const isGodwoken = networkSuffix?.startsWith("gw");
 export const rpc = isGodwoken ? polyjuiceRPC : defaultRPC;
 export const deployer = isGodwoken ? polyjuiceDeployer : defaultDeployer;

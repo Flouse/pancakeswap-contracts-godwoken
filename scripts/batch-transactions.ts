@@ -14,6 +14,7 @@ import {
   polyjuiceRPC,
   promiseAllLimitN,
   retry,
+  shuffle,
   sleep,
   unit,
 } from "./common";
@@ -31,7 +32,8 @@ let mintJobs: (() => Promise<void>)[] = [];
 let pancakeRouters: (() => Promise<void>)[] = [];
 
 (async function stressTesting() {
-  const deployJobs = privKeys.map(privKey => async () => {
+  // init the deploy jobs with random order
+  const deployJobs = shuffle(privKeys).map(privKey => async () => {
     const deployer = new PolyjuiceWallet(
       privKey,
       polyjuiceConfig,
@@ -176,13 +178,14 @@ let pancakeRouters: (() => Promise<void>)[] = [];
     mintJobs.push(mintJob);
   });
 
-  promiseAllLimitN(1, deployJobs);
+  promiseAllLimitN(2, deployJobs);
 
   setInterval(async () => {
-    if (mintJobs.length === 0) return;
+    if (mintJobs.length < 10) return;
     const randomIdx = Math.floor(Math.random() * mintJobs.length);
+    console.log(`  [${randomIdx}/${mintJobs.length}]:`);
     mintJobs[randomIdx]().catch(console.error);
-  }, 500);
+  }, 100);
 
   async function deployToken(name: string, symbol: string, transactionSubmitter: TransactionSubmitter) {
     const receipt = await transactionSubmitter.submitAndWait(
