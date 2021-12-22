@@ -180,12 +180,15 @@ let pancakeRouters: (() => Promise<void>)[] = [];
 
   promiseAllLimitN(2, deployJobs);
 
-  setInterval(async () => {
-    if (mintJobs.length < 10) return;
+  // exit after 5 hours
+  setTimeout(() => process.exit(0), 5 * 60 * 60000);
+  while (true) {
+    await sleep(3000 / (mintJobs.length + 1));
+    if (mintJobs.length < 10) continue;
     const randomIdx = Math.floor(Math.random() * mintJobs.length);
     console.log(`  [${randomIdx}/${mintJobs.length}]:`);
     mintJobs[randomIdx]().catch(console.error);
-  }, 100);
+  }
 
   async function deployToken(name: string, symbol: string, transactionSubmitter: TransactionSubmitter) {
     const receipt = await transactionSubmitter.submitAndWait(
