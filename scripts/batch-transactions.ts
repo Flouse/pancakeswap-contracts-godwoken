@@ -1,3 +1,4 @@
+import { ErrorCode } from "@ethersproject/logger";
 import {
   BigNumber,
   constants,
@@ -175,7 +176,11 @@ let pancakeRouters: (() => Promise<void>)[] = [];
       console.log(`${deployer.address} is minting ${num} ${tokenSymbols.join(", ")}`);
       console.time(`mint ${num}`);
       await Promise.race([
-        sleep(8000).then(() => { throw new Error(`mint ${num} timeout`); }),
+        sleep(10000).then(() => {
+          const e: any = new Error(`mint ${num} timeout`);
+          e.code = ErrorCode.TIMEOUT;
+          throw e;
+        }),
         faucet.mint(
           tokenContracts.map((token) => token.address),
           unit(num),
@@ -193,12 +198,25 @@ let pancakeRouters: (() => Promise<void>)[] = [];
 
   // exit after 5 hours
   setTimeout(() => process.exit(0), 5 * 60 * 60000);
+
+  let interval = 3000;
   while (true) {
-    await sleep(3000 / (mintJobs.length + 1));
+    interval = interval > 10 ? interval : 10;
+    console.log(`sleep ${interval}ms...`);
+    await sleep(interval);
+
     if (mintJobs.length < 10) continue;
+
     const randomIdx = Math.floor(Math.random() * mintJobs.length);
     console.log(`  [${randomIdx}/${mintJobs.length}]:`);
-    mintJobs[randomIdx]().catch(console.error);
+    mintJobs[randomIdx]()
+      .then(() => interval--)
+      .catch(e => {
+        console.error(e);
+        if (e instanceof Error && (e as any).code == ErrorCode.TIMEOUT) {
+          interval++;
+        }
+    });
   }
 
   async function deployToken(name: string, symbol: string, transactionSubmitter: TransactionSubmitter) {
