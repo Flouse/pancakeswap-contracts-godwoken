@@ -55,7 +55,7 @@ let pancakeRouters: (() => Promise<void>)[] = [];
       await retry(() => Promise.race([
         deployContracts(deployer, transactionSubmitter),
         new Promise((_, rej) =>
-          setTimeout(() => rej(`${gw_short_script_hash} timeout`), 60000)),
+          setTimeout(() => rej(`${gw_short_script_hash} timeout`), 200000)),
       ]), 3, 30000).catch(reason => {
         console.error(`Failed to deploy contracts for ${gw_short_script_hash}:`,
           "\n  reason:", reason);
@@ -175,7 +175,7 @@ let pancakeRouters: (() => Promise<void>)[] = [];
       console.log(`${deployer.address} is minting ${num} ${tokenSymbols.join(", ")}`);
       console.time(`mint ${num}`);
       await Promise.race([
-        sleep(6000).then(() => { throw new Error(`mint ${num} timeout`); }),
+        sleep(8000).then(() => { throw new Error(`mint ${num} timeout`); }),
         faucet.mint(
           tokenContracts.map((token) => token.address),
           unit(num),
