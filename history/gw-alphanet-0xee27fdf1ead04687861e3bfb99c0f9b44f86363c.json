@@ -696,5 +696,219 @@
         "blockHash": "0x6edb833c0b807d9f2f4ec6bd200d921f0feb2ec88f322e6b148e6781a226e90d"
       }
     ]
+  },
+  "Add 1 FOO-CKB liquidity": {
+    "to": "0xc84f27555033C5E8E45AA806842773e0159C3671",
+    "from": "0xDD7775517B54f1881aA96065D1Bf0d73c9C670dF",
+    "contractAddress": null,
+    "transactionIndex": 0,
+    "gasUsed": {
+      "type": "BigNumber",
+      "hex": "0x05c49b"
+    },
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c",
+    "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+    "logs": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0x5d2E6680a160dE236A40CDCF99FB2f5469F1B69A",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x000000000000000000000000ee27fdf1ead04687861e3bfb99c0f9b44f86363c",
+          "0x000000000000000000000000f62c08741ff80298b6b0def87b076cb9f7fec078"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000000de0b6b3a7640000",
+        "logIndex": 0,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0x5d2E6680a160dE236A40CDCF99FB2f5469F1B69A",
+        "topics": [
+          "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925",
+          "0x000000000000000000000000ee27fdf1ead04687861e3bfb99c0f9b44f86363c",
+          "0x000000000000000000000000c84f27555033c5e8e45aa806842773e0159c3671"
+        ],
+        "data": "0xffffffffffffffffffffffffffffffffffffffffffff5f1c91a5672cdb47ffff",
+        "logIndex": 1,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0x5eC20283aD92e183705020f0E35047d09B2dE1e1",
+        "topics": [
+          "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c",
+          "0x000000000000000000000000c84f27555033c5e8e45aa806842773e0159c3671"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000000000000005f5e100",
+        "logIndex": 2,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0x5eC20283aD92e183705020f0E35047d09B2dE1e1",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x000000000000000000000000c84f27555033c5e8e45aa806842773e0159c3671",
+          "0x000000000000000000000000f62c08741ff80298b6b0def87b076cb9f7fec078"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000000000000005f5e100",
+        "logIndex": 3,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0xF62c08741fF80298b6B0dEF87b076cB9F7fEc078",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x000000000000000000000000ee27fdf1ead04687861e3bfb99c0f9b44f86363c"
+        ],
+        "data": "0x000000000000000000000000000000000000000000000000000009184e72a000",
+        "logIndex": 4,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0xF62c08741fF80298b6B0dEF87b076cB9F7fEc078",
+        "topics": [
+          "0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1"
+        ],
+        "data": "0x00000000000000000000000000000000000000000000000029a2241af62c00000000000000000000000000000000000000000000000000000000000011e1a300",
+        "logIndex": 5,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0xF62c08741fF80298b6B0dEF87b076cB9F7fEc078",
+        "topics": [
+          "0x4c209b5fc8ad50758f13e2e1088ba56a560dff690a1c6fef26394f4c03821c4f",
+          "0x000000000000000000000000c84f27555033c5e8e45aa806842773e0159c3671"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000000de0b6b3a76400000000000000000000000000000000000000000000000000000000000005f5e100",
+        "logIndex": 6,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      }
+    ],
+    "blockNumber": 21696,
+    "confirmations": 1,
+    "cumulativeGasUsed": {
+      "type": "BigNumber",
+      "hex": "0x05c49b"
+    },
+    "status": 1,
+    "type": 0,
+    "byzantium": true,
+    "events": [
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0x5d2E6680a160dE236A40CDCF99FB2f5469F1B69A",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x000000000000000000000000ee27fdf1ead04687861e3bfb99c0f9b44f86363c",
+          "0x000000000000000000000000f62c08741ff80298b6b0def87b076cb9f7fec078"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000000de0b6b3a7640000",
+        "logIndex": 0,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0x5d2E6680a160dE236A40CDCF99FB2f5469F1B69A",
+        "topics": [
+          "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925",
+          "0x000000000000000000000000ee27fdf1ead04687861e3bfb99c0f9b44f86363c",
+          "0x000000000000000000000000c84f27555033c5e8e45aa806842773e0159c3671"
+        ],
+        "data": "0xffffffffffffffffffffffffffffffffffffffffffff5f1c91a5672cdb47ffff",
+        "logIndex": 1,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0x5eC20283aD92e183705020f0E35047d09B2dE1e1",
+        "topics": [
+          "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c",
+          "0x000000000000000000000000c84f27555033c5e8e45aa806842773e0159c3671"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000000000000005f5e100",
+        "logIndex": 2,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0x5eC20283aD92e183705020f0E35047d09B2dE1e1",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x000000000000000000000000c84f27555033c5e8e45aa806842773e0159c3671",
+          "0x000000000000000000000000f62c08741ff80298b6b0def87b076cb9f7fec078"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000000000000005f5e100",
+        "logIndex": 3,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0xF62c08741fF80298b6B0dEF87b076cB9F7fEc078",
+        "topics": [
+          "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x000000000000000000000000ee27fdf1ead04687861e3bfb99c0f9b44f86363c"
+        ],
+        "data": "0x000000000000000000000000000000000000000000000000000009184e72a000",
+        "logIndex": 4,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0xF62c08741fF80298b6B0dEF87b076cB9F7fEc078",
+        "topics": [
+          "0x1c411e9a96e071241c2f21f7726b17ae89e3cab4c78be50e062b03a9fffbbad1"
+        ],
+        "data": "0x00000000000000000000000000000000000000000000000029a2241af62c00000000000000000000000000000000000000000000000000000000000011e1a300",
+        "logIndex": 5,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      },
+      {
+        "transactionIndex": 0,
+        "blockNumber": 21696,
+        "transactionHash": "0xb45f17805da7f6d2aa7e276ff2a3e6f9cb53bb2e07106c3e35a4c1cab8f038fe",
+        "address": "0xF62c08741fF80298b6B0dEF87b076cB9F7fEc078",
+        "topics": [
+          "0x4c209b5fc8ad50758f13e2e1088ba56a560dff690a1c6fef26394f4c03821c4f",
+          "0x000000000000000000000000c84f27555033c5e8e45aa806842773e0159c3671"
+        ],
+        "data": "0x0000000000000000000000000000000000000000000000000de0b6b3a76400000000000000000000000000000000000000000000000000000000000005f5e100",
+        "logIndex": 6,
+        "blockHash": "0x3b293d896373004d8d13a7aac79c106628bd33047a29cbb0d2b2f432256fca9c"
+      }
+    ]
   }
 }
