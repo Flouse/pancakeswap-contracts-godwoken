@@ -213,9 +213,10 @@ let pancakeRouters: (() => Promise<void>)[] = [];
       .then(() => interval--)
       .catch(e => {
         console.error(e);
-        if (e instanceof Error && (e as any).code == ErrorCode.TIMEOUT) {
+        // FIXME:
+        // if (e instanceof Error && (e as any).code == ErrorCode.TIMEOUT) {
           interval++;
-        }
+        // }
     });
   }
 
