@@ -33,7 +33,7 @@ let pancakeRouters: (() => Promise<void>)[] = [];
 
 (async function stressTesting() {
   // init the deploy jobs with random order
-  const deployJobs = shuffle(privKeys).map(privKey => async () => {
+  const deployJobs = shuffle(privKeys).map(privKey => async (): Promise<string | void> => {
     const deployer = new PolyjuiceWallet(
       privKey,
       polyjuiceConfig,
@@ -51,11 +51,20 @@ let pancakeRouters: (() => Promise<void>)[] = [];
     );
 
     // deploy pancakeswap contracts first
-    await retry(() => Promise.race([
-      deployContracts(deployer, transactionSubmitter),
-      new Promise((_, rej) =>
-        setTimeout(() => rej(`${gw_short_script_hash} timeout`), 60000)),
-    ]), 3, 30000).catch(console.error);
+    try {
+      await retry(() => Promise.race([
+        deployContracts(deployer, transactionSubmitter),
+        new Promise((_, rej) =>
+          setTimeout(() => rej(`${gw_short_script_hash} timeout`), 60000)),
+      ]), 3, 30000).catch(reason => {
+        console.error(`Failed to deploy contracts for ${gw_short_script_hash}:`,
+          "\n  reason:", reason);
+        throw new Error(`Failed to deploy contracts for ${gw_short_script_hash}`);
+      });
+    } catch (error) {
+      console.error(error);
+      return Promise.reject('skip');
+    }
 
     const deployFaucetReceipt = await transactionSubmitter.submitAndWait(
       "Deploy Faucet",
@@ -178,7 +187,9 @@ let pancakeRouters: (() => Promise<void>)[] = [];
     mintJobs.push(mintJob);
   });
 
-  promiseAllLimitN(2, deployJobs);
+  promiseAllLimitN(2, deployJobs).catch(reason => {
+    console.error(`promiseAllLimitN Error:`, reason);
+  });
 
   // exit after 5 hours
   setTimeout(() => process.exit(0), 5 * 60 * 60000);
