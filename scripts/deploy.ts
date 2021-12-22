@@ -154,7 +154,7 @@ export interface IPancakePair extends Contract, IPancakePairStaticMethods {
 
 
 export const txOverrides = {
-  gasPrice: isGodwoken ? 1000 : undefined,
+  gasPrice: isGodwoken ? 100 : undefined,
   gasLimit: isGodwoken ? 1_000_000 : undefined,
 };
 
